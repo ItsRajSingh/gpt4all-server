@@ -12,10 +12,6 @@ const execAsync = promisify(exec);
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Add this at the very top of your file
-console.log('Current directory:', process.cwd());
-console.log('Files in directory:', require('fs').readdirSync('.'));
-
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
