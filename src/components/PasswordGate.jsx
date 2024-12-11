@@ -192,6 +192,7 @@ const Input = styled.input`
   text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
   transition: all 0.3s ease;
   box-sizing: border-box;
+  -webkit-appearance: none;
   
   &:focus {
     outline: none;
@@ -229,6 +230,7 @@ const PasswordGate = ({ children }) => {
   
   useEffect(() => {
     const auth = localStorage.getItem('site-auth');
+    console.log('Checking auth:', auth);
     if (auth === 'true') {
       setIsAuthorized(true);
     }
@@ -236,11 +238,16 @@ const PasswordGate = ({ children }) => {
 
   const checkPassword = (e) => {
     e.preventDefault();
+    console.log('Checking password:', password);
+    console.log('Expected:', SECURE_PASSWORD);
+    
     if (password === SECURE_PASSWORD) {
+      console.log('Password correct!');
       localStorage.setItem('site-auth', 'true');
       setIsAuthorized(true);
       setError('');
     } else {
+      console.log('Password incorrect!');
       setError('ACCESS DENIED: REALITY BREACH DETECTED');
       setPassword('');
     }
@@ -260,10 +267,13 @@ const PasswordGate = ({ children }) => {
           <form onSubmit={checkPassword}>
             <Input
               type="password"
+              inputMode="text"
               placeholder="ENTER VOID SIGNATURE"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoFocus
+              autoComplete="off"
+              onClick={(e) => e.target.focus()}
             />
             <ErrorMessage>{error}</ErrorMessage>
           </form>
